@@ -1,32 +1,23 @@
 ---
 title: 'Authentication'
-description: 'blat'
+description: ''
 ---
 
-<Note>
-  Access to the Partner API is limited to paying customers with a package that includes API access. If you'd like to enable it, please reach out to our support team.
-</Note>
+All requests to the API must be authenticated with a valid API key. If you don't have an API key, please reach out to our support team.
 
-## Overview
-
-The API provides a way for developers to programmatically work with the same data available in the AI Visibility Dashboard. All endpoints return data in JSON format.
-
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+---
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+You can authenticate by providing your API key in the HTTP header:
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+```bash
+curl -X GET "https://api.mindshare.so/report/get-customer-details" \
+  -H "x-api-key: YOUR_API_KEY"
 ```
+
+
+## Best Practices
+- Keep your API keys secret and never expose them in client-side code.
+- Rotate your API keys regularly and immediately if you suspect they've been compromised.
+- Use environment variables to store API keys rather than hardcoding them in your application.
