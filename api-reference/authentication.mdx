@@ -1,0 +1,32 @@
+---
+title: 'Authentication'
+description: 'blat'
+---
+
+<Note>
+  Access to the Partner API is limited to paying customers with a package that includes API access. If you'd like to enable it, please reach out to our support team.
+</Note>
+
+## Overview
+
+The API provides a way for developers to programmatically work with the same data available in the AI Visibility Dashboard. All endpoints return data in JSON format.
+
+<Card
+  title="Plant Store Endpoints"
+  icon="leaf"
+  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
+>
+  View the OpenAPI specification file
+</Card>
+
+## Authentication
+
+All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+
+```json
+"security": [
+  {
+    "bearerAuth": []
+  }
+]
+```
