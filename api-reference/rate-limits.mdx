@@ -1,0 +1,16 @@
+---
+title: 'Rate Limits'
+description: ''
+---
+
+Mindshare AI API provide reliable and fair usage across all users, rate limits are enforced on a per API key basis.
+
+## API Limits
+- **50 requests per minute.**
+
+When the rate limit is exceeded, the API will return a `429 Too Many Requests` response until the rate limit window resets.
+
+## Best Practices
+- Monitor the rate limit in your project.
+- Implement plan b logic or retry logic when receiving `429` responses.
+- If you need higher limits, reach out support. 
