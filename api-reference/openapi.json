@@ -10,63 +10,31 @@
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "https://api.mindshare.so/customer/v1"
     }
   ],
   "security": [
     {
-      "bearerAuth": []
+      "apiKeyHeader": []
     }
   ],
   "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/get-organization-customers": {
       "post": {
-        "description": "Creates a new plant in the store",
+        "description": "Get all customers linked to the organization",
         "requestBody": {
-          "description": "Plant to add to the store",
+          "description": "Organization ID",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "type": "object",
+                "properties": {
+                  "organizationID": {
+                    "type": "number",
+                    "description": "The ID of the organization"
+                  }
+                },
+                "required": ["organizationID"]
               }
             }
           },
@@ -74,11 +42,11 @@
         },
         "responses": {
           "200": {
-            "description": "plant response",
+            "description": "List of customers for the organization",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Plant"
+                  "$ref": "#/components/schemas/OrganizationCustomersResponse"
                 }
               }
             }
@@ -205,12 +173,106 @@
             "type": "string"
           }
         }
+      },
+      "Customer": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Customer ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Customer name"
+          },
+          "created_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Customer creation timestamp"
+          },
+          "trial_start": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Trial start date"
+          },
+          "trial_end": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Trial end date"
+          },
+          "last_scan_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last scan date"
+          },
+          "next_scheduled_run": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Next scheduled run date"
+          },
+          "paying_customer": {
+            "type": "boolean",
+            "description": "Whether the customer is a paying customer"
+          },
+          "website_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Customer website URL"
+          },
+          "status": {
+            "type": "string",
+            "description": "Customer status"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "created_time",
+          "trial_start",
+          "trial_end",
+          "last_scan_date",
+          "paying_customer",
+          "website_url",
+          "status"
+        ]
+      },
+      "OrganizationCustomersResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "number",
+            "description": "HTTP status code"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Customer"
+            },
+            "description": "List of customers"
+          },
+          "version": {
+            "type": "string",
+            "description": "API version"
+          },
+          "env": {
+            "type": "string",
+            "description": "Environment name"
+          }
+        },
+        "required": [
+          "status",
+          "data",
+          "version",
+          "env"
+        ]
       }
     },
     "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
+      "apiKeyHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
       }
     }
   }
