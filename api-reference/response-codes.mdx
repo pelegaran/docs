@@ -1,0 +1,34 @@
+---
+title: 'Response Codes'
+description: ''
+---
+
+The API uses standard HTTP response codes to indicate the success or failure of requests. Here are the most common error codes you may encounter.
+
+---
+
+## Success Codes
+
+### `200 OK`
+The request was successful and the response contains the requested data.
+
+---
+
+## Server Error Codes
+
+### `400 Bad Request`
+The request was malformed or contains invalid parameters. Check your request body and parameters.
+
+### `401 Unauthorized`
+Authentication failed or API key is missing. Verify your API key is correct and included in the request header.
+
+### `403 Forbidden`
+The API key doesn't have permission to access the requested resource. Contact support if you believe this is an error.
+
+### `429 Too Many Requests`
+Rate limit exceeded. Wait until the rate limit window resets before making additional requests. See [Rate Limits](/api-reference/rate-limits) for details.
+
+### `500 Internal Server Error`
+An unexpected error occurred on the server. If this persists, contact support.
+
+---

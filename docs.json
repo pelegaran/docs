@@ -56,7 +56,7 @@
               "api-reference/introduction",
               "api-reference/authentication",
               "api-reference/rate-limits",
-              "api-reference/error-codes"
+              "api-reference/response-codes"
             ]
           },
           {
