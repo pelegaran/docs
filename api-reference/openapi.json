@@ -34,7 +34,9 @@
                     "description": "The ID of the organization"
                   }
                 },
-                "required": ["organizationID"]
+                "required": [
+                  "organizationID"
+                ]
               }
             }
           },
@@ -54,32 +56,36 @@
         }
       }
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
+    "/get-customer-query-groups": {
+      "post": {
+        "description": "Get all query groups for a customer",
+        "requestBody": {
+          "description": "Customer ID",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customerID": {
+                    "type": "number",
+                    "description": "The ID of the customer"
+                  }
+                },
+                "required": [
+                  "customerID"
+                ]
+              }
             }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
           },
-          "400": {
-            "description": "unexpected error",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "List of query groups for the customer",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/QueryGroupsResponse"
                 }
               }
             }
@@ -111,155 +117,291 @@
     }
   },
   "components": {
-    "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
+      "schemas": {
+        "Plant": {
+          "required": [
+            "name"
+          ],
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "The name of the plant",
+              "type": "string"
+            },
+            "tag": {
+              "description": "Tag to specify the type",
+              "type": "string"
             }
           }
-        ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
+        },
+        "NewPlant": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/Plant"
+            },
+            {
+              "required": [
+                "id"
+              ],
+              "type": "object",
+              "properties": {
+                "id": {
+                  "description": "Identification number of the plant",
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          ]
+        },
+        "Error": {
+          "required": [
+            "error",
+            "message"
+          ],
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "message": {
+              "type": "string"
+            }
           }
+        },
+        "Customer": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "description": "Customer ID"
+            },
+            "name": {
+              "type": "string",
+              "description": "Customer name"
+            },
+            "created_time": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Customer creation timestamp"
+            },
+            "trial_start": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Trial start date"
+            },
+            "trial_end": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Trial end date"
+            },
+            "last_scan_date": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Last scan date"
+            },
+            "next_scheduled_run": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true,
+              "description": "Next scheduled run date"
+            },
+            "paying_customer": {
+              "type": "boolean",
+              "description": "Whether the customer is a paying customer"
+            },
+            "website_url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Customer website URL"
+            },
+            "view_report_url": {
+              "type": "string",
+              "description": "URL to view the customer report"
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "created_time",
+            "trial_start",
+            "trial_end",
+            "last_scan_date",
+            "paying_customer",
+            "website_url",
+            "view_report_url"
+          ]
+        },
+        "OrganizationCustomersResponse": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Customer"
+              },
+              "description": "List of customers"
+            },
+            "version": {
+              "type": "string",
+              "description": "API version"
+            },
+            "env": {
+              "type": "string",
+              "description": "Environment name"
+            }
+          },
+          "required": [
+            "status",
+            "data",
+            "version",
+            "env"
+          ]
+        },
+        "Execution": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "description": "Execution ID"
+            },
+            "title": {
+              "type": "string",
+              "description": "Execution title"
+            },
+            "execution_date": {
+              "type": "string",
+              "format": "date",
+              "description": "Date of execution"
+            },
+            "version_id": {
+              "type": "number",
+              "nullable": true,
+              "description": "Version ID"
+            },
+            "version_number": {
+              "type": "number",
+              "nullable": true,
+              "description": "Version number"
+            },
+            "version_comments": {
+              "type": "string",
+              "nullable": true,
+              "description": "Version comments"
+            },
+            "score": {
+              "type": "number",
+              "description": "Execution score"
+            }
+          },
+          "required": [
+            "id",
+            "title",
+            "execution_date",
+            "score"
+          ]
+        },
+        "QueryGroup": {
+          "type": "object",
+          "properties": {
+            "query_group_id": {
+              "type": "number",
+              "description": "Query group ID"
+            },
+            "group_type": {
+              "type": "string",
+              "description": "Type of the group"
+            },
+            "query_group_title": {
+              "type": "string",
+              "description": "Title of the query group"
+            },
+            "created_time": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Creation timestamp"
+            },
+            "query_group_db_inner_id": {
+              "type": "string",
+              "description": "Internal database ID"
+            },
+            "keywords": {
+              "type": "string",
+              "description": "Keywords for the group"
+            },
+            "num_of_queries": {
+              "type": "number",
+              "nullable": true,
+              "description": "Number of queries"
+            },
+            "website_url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Website URL"
+            },
+            "is_default": {
+              "type": "boolean",
+              "description": "Whether this is a default group"
+            },
+            "run_from_location": {
+              "type": "string",
+              "description": "Location to run from"
+            },
+            "executions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Execution"
+              },
+              "description": "List of executions"
+            }
+          },
+          "required": [
+            "query_group_id",
+            "group_type",
+            "query_group_title",
+            "created_time",
+            "query_group_db_inner_id",
+            "keywords",
+            "website_url",
+            "is_default",
+            "run_from_location",
+            "executions"
+          ]
+        },
+        "QueryGroupsResponse": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/QueryGroup"
+              },
+              "description": "List of query groups"
+            },
+            "version": {
+              "type": "string",
+              "description": "API version"
+            },
+            "env": {
+              "type": "string",
+              "description": "Environment name"
+            }
+          },
+          "required": [
+            "status",
+            "data",
+            "version",
+            "env"
+          ]
         }
       },
-      "Customer": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number",
-            "description": "Customer ID"
-          },
-          "name": {
-            "type": "string",
-            "description": "Customer name"
-          },
-          "created_time": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Customer creation timestamp"
-          },
-          "trial_start": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Trial start date"
-          },
-          "trial_end": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Trial end date"
-          },
-          "last_scan_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Last scan date"
-          },
-          "next_scheduled_run": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "Next scheduled run date"
-          },
-          "paying_customer": {
-            "type": "boolean",
-            "description": "Whether the customer is a paying customer"
-          },
-          "website_url": {
-            "type": "string",
-            "format": "uri",
-            "description": "Customer website URL"
-          },
-          "view_report_url": {
-            "type": "string",
-            "description": "URL to view the customer report"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "created_time",
-          "trial_start",
-          "trial_end",
-          "last_scan_date",
-          "paying_customer",
-          "website_url",
-          "view_report_url"
-        ]
-      },
-      "OrganizationCustomersResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Customer"
-            },
-            "description": "List of customers"
-          },
-          "version": {
-            "type": "string",
-            "description": "API version"
-          },
-          "env": {
-            "type": "string",
-            "description": "Environment name"
-          }
-        },
-        "required": [
-          "status",
-          "data",
-          "version",
-          "env"
-        ]
-      }
-    },
-    "securitySchemes": {
-      "apiKeyHeader": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "X-API-Key"
+      "securitySchemes": {
+        "apiKeyHeader": {
+          "type": "apiKey",
+          "in": "header",
+          "name": "X-API-Key"
+        }
       }
     }
   }
-}

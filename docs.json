@@ -62,8 +62,8 @@
           {
             "group": "Endpoints",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
+              "api-reference/endpoint/get-organization-customers",
+              "api-reference/endpoint/get-customer-query-groups",
               "api-reference/endpoint/delete",
               "api-reference/endpoint/webhook"
             ]
