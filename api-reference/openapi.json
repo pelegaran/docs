@@ -275,21 +275,6 @@
               "format": "date",
               "description": "Date of execution"
             },
-            "version_id": {
-              "type": "number",
-              "nullable": true,
-              "description": "Version ID"
-            },
-            "version_number": {
-              "type": "number",
-              "nullable": true,
-              "description": "Version number"
-            },
-            "version_comments": {
-              "type": "string",
-              "nullable": true,
-              "description": "Version comments"
-            },
             "score": {
               "type": "number",
               "description": "Execution score"
@@ -322,10 +307,6 @@
               "format": "date-time",
               "description": "Creation timestamp"
             },
-            "query_group_db_inner_id": {
-              "type": "string",
-              "description": "Internal database ID"
-            },
             "keywords": {
               "type": "string",
               "description": "Keywords for the group"
@@ -340,13 +321,9 @@
               "format": "uri",
               "description": "Website URL"
             },
-            "is_default": {
-              "type": "boolean",
-              "description": "Whether this is a default group"
-            },
             "run_from_location": {
               "type": "string",
-              "description": "Location to run from"
+              "description": "Location to run from. Default is 'us'"
             },
             "executions": {
               "type": "array",
@@ -361,10 +338,8 @@
             "group_type",
             "query_group_title",
             "created_time",
-            "query_group_db_inner_id",
             "keywords",
             "website_url",
-            "is_default",
             "run_from_location",
             "executions"
           ]
