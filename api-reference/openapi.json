@@ -50,16 +50,6 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
           }
         }
       }
@@ -219,10 +209,6 @@
             "type": "string",
             "format": "uri",
             "description": "Customer website URL"
-          },
-          "status": {
-            "type": "string",
-            "description": "Customer status"
           }
         },
         "required": [
@@ -240,10 +226,6 @@
       "OrganizationCustomersResponse": {
         "type": "object",
         "properties": {
-          "status": {
-            "type": "number",
-            "description": "HTTP status code"
-          },
           "data": {
             "type": "array",
             "items": {
