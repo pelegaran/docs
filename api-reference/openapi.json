@@ -209,6 +209,10 @@
             "type": "string",
             "format": "uri",
             "description": "Customer website URL"
+          },
+          "view_report_url": {
+            "type": "string",
+            "description": "URL to view the customer report"
           }
         },
         "required": [
@@ -220,7 +224,7 @@
           "last_scan_date",
           "paying_customer",
           "website_url",
-          "status"
+          "view_report_url"
         ]
       },
       "OrganizationCustomersResponse": {
