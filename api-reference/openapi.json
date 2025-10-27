@@ -202,6 +202,61 @@
           }
         }
       }
+    },
+    "/get-domain-stats": {
+      "post": {
+        "description": "Get domain and article statistics based on customer ID and either queryGroupID with date range, or executionID",
+        "requestBody": {
+          "description": "Get domain stats parameters",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customerID": {
+                    "type": "number",
+                    "description": "The ID of the customer"
+                  },
+                  "queryGroupID": {
+                    "type": "number",
+                    "description": "The ID of the query group"
+                  },
+                  "startDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Start date in yyyy-mm-dd format"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "End date in yyyy-mm-dd format"
+                  },
+                  "executionID": {
+                    "type": "number",
+                    "description": "The ID of the execution"
+                  }
+                },
+                "required": [
+                  "customerID"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Domain and article statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DomainStatsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "webhooks": {
@@ -585,6 +640,107 @@
                 "$ref": "#/components/schemas/CompanyStat"
               },
               "description": "List of company statistics"
+            },
+            "version": {
+              "type": "string",
+              "description": "API version"
+            },
+            "env": {
+              "type": "string",
+              "description": "Environment name"
+            }
+          },
+          "required": [
+            "data",
+            "version",
+            "env"
+          ]
+        },
+        "DomainStat": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "type": "string",
+              "description": "Domain name"
+            },
+            "count": {
+              "type": "number",
+              "description": "Number of occurrences"
+            },
+            "percentage": {
+              "type": "number",
+              "description": "Percentage of occurrences"
+            },
+            "category": {
+              "type": "string",
+              "nullable": true,
+              "description": "Category of the domain"
+            },
+            "isCompetitor": {
+              "type": "boolean",
+              "nullable": true,
+              "description": "Whether this is a competitor"
+            }
+          },
+          "required": [
+            "domain",
+            "count",
+            "percentage"
+          ]
+        },
+        "ArticleStat": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Article URL"
+            },
+            "count": {
+              "type": "number",
+              "description": "Number of occurrences"
+            },
+            "percentage": {
+              "type": "number",
+              "description": "Percentage of occurrences"
+            },
+            "isCustomerMentioned": {
+              "type": "boolean",
+              "description": "Whether the customer is mentioned in this article"
+            }
+          },
+          "required": [
+            "url",
+            "count",
+            "percentage",
+            "isCustomerMentioned"
+          ]
+        },
+        "DomainStatsResponse": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "domainStats": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DomainStat"
+                  },
+                  "description": "List of domain statistics"
+                },
+                "articleStats": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArticleStat"
+                  },
+                  "description": "List of article statistics"
+                }
+              },
+              "required": [
+                "domainStats",
+                "articleStats"
+              ]
             },
             "version": {
               "type": "string",
