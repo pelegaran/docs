@@ -92,6 +92,116 @@
           }
         }
       }
+    },
+    "/get-queries": {
+      "post": {
+        "description": "Get queries based on customer ID and either queryGroupID with date range, or executionID",
+        "requestBody": {
+          "description": "Get queries parameters",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customerID": {
+                    "type": "number",
+                    "description": "The ID of the customer"
+                  },
+                  "queryGroupID": {
+                    "type": "number",
+                    "description": "The ID of the query group"
+                  },
+                  "startDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Start date in yyyy-mm-dd format"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "End date in yyyy-mm-dd format"
+                  },
+                  "executionID": {
+                    "type": "number",
+                    "description": "The ID of the execution"
+                  }
+                },
+                "required": [
+                  "customerID"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "List of queries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueriesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get-companies-stats": {
+      "post": {
+        "description": "Get company statistics based on customer ID and either queryGroupID with date range, or executionID",
+        "requestBody": {
+          "description": "Get companies stats parameters",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customerID": {
+                    "type": "number",
+                    "description": "The ID of the customer"
+                  },
+                  "queryGroupID": {
+                    "type": "number",
+                    "description": "The ID of the query group"
+                  },
+                  "startDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Start date in yyyy-mm-dd format"
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "End date in yyyy-mm-dd format"
+                  },
+                  "executionID": {
+                    "type": "number",
+                    "description": "The ID of the execution"
+                  }
+                },
+                "required": [
+                  "customerID"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "List of company statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompaniesStatsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "webhooks": {
@@ -253,7 +363,6 @@
             }
           },
           "required": [
-            "status",
             "data",
             "version",
             "env"
@@ -364,7 +473,129 @@
             }
           },
           "required": [
-            "status",
+            "data",
+            "version",
+            "env"
+          ]
+        },
+        "Query": {
+          "type": "object",
+          "properties": {
+            "resources_data_path": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to resources data"
+            },
+            "date": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Query execution date"
+            },
+            "is_product_in_results": {
+              "type": "number",
+              "description": "Whether product is in results (0 or 1)"
+            },
+            "competitors_data_path": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to competitors full data. The main customer can appear in this list."
+            },
+            "query": {
+              "type": "string",
+              "description": "The query text"
+            },
+            "query_id": {
+              "type": "number",
+              "description": "Query ID"
+            },
+            "execution_id": {
+              "type": "number",
+              "description": "Execution ID"
+            },
+            "query_results_path": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to query results text"
+            }
+          },
+          "required": [
+            "resources_data_path",
+            "date",
+            "is_product_in_results",
+            "competitors_data_path",
+            "query",
+            "query_id",
+            "execution_id",
+            "query_results_path"
+          ]
+        },
+        "QueriesResponse": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Query"
+              },
+              "description": "List of queries"
+            },
+            "version": {
+              "type": "string",
+              "description": "API version"
+            },
+            "env": {
+              "type": "string",
+              "description": "Environment name"
+            }
+          },
+          "required": [
+            "data",
+            "version",
+            "env"
+          ]
+        },
+        "CompanyStat": {
+          "type": "object",
+          "properties": {
+            "company": {
+              "type": "string",
+              "description": "Company name"
+            },
+            "count": {
+              "type": "number",
+              "description": "Number of occurrences"
+            },
+            "percentage": {
+              "type": "number",
+              "description": "Percentage of occurrences"
+            }
+          },
+          "required": [
+            "company",
+            "count",
+            "percentage"
+          ]
+        },
+        "CompaniesStatsResponse": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CompanyStat"
+              },
+              "description": "List of company statistics"
+            },
+            "version": {
+              "type": "string",
+              "description": "API version"
+            },
+            "env": {
+              "type": "string",
+              "description": "Environment name"
+            }
+          },
+          "required": [
             "data",
             "version",
             "env"

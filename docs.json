@@ -64,8 +64,8 @@
             "pages": [
               "api-reference/endpoint/get-organization-customers",
               "api-reference/endpoint/get-customer-query-groups",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/endpoint/get-queries",
+              "api-reference/endpoint/get-companies-stats"
             ]
           }
         ]
