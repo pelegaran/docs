@@ -66,7 +66,8 @@
               "api-reference/endpoint/get-customer-query-groups",
               "api-reference/endpoint/get-queries",
               "api-reference/endpoint/get-companies-stats",
-              "api-reference/endpoint/get-domain-stats"
+              "api-reference/endpoint/get-domain-stats",
+              "api-reference/endpoint/get-recommendations"
             ]
           }
         ]

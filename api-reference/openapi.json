@@ -257,6 +257,43 @@
           }
         }
       }
+    },
+    "/get-recommendations": {
+      "post": {
+        "description": "Get recommendations for a customer",
+        "requestBody": {
+          "description": "Customer ID",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customerID": {
+                    "type": "number",
+                    "description": "The ID of the customer"
+                  }
+                },
+                "required": [
+                  "customerID"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "List of recommendations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendationsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "webhooks": {
@@ -741,6 +778,123 @@
                 "domainStats",
                 "articleStats"
               ]
+            },
+            "version": {
+              "type": "string",
+              "description": "API version"
+            },
+            "env": {
+              "type": "string",
+              "description": "Environment name"
+            }
+          },
+          "required": [
+            "data",
+            "version",
+            "env"
+          ]
+        },
+        "Recommendation": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "description": "Recommendation ID"
+            },
+            "title": {
+              "type": "string",
+              "description": "Title of the recommendation"
+            },
+            "task": {
+              "type": "string",
+              "description": "Task description"
+            },
+            "data_points": {
+              "type": "string",
+              "description": "Data points supporting the recommendation"
+            },
+            "recommnedation": {
+              "type": "string",
+              "description": "Full recommendation text"
+            },
+            "why_important": {
+              "type": "string",
+              "description": "Why this recommendation is important"
+            },
+            "platform": {
+              "type": "string",
+              "description": "Platform where the recommendation applies"
+            },
+            "status": {
+              "type": "string",
+              "description": "Status of the recommendation"
+            },
+            "date": {
+              "type": "string",
+              "format": "date",
+              "description": "Date of the recommendation"
+            },
+            "cw": {
+              "type": "string",
+              "description": "CW identifier"
+            },
+            "attached_links": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uri"
+              },
+              "description": "Links attached to the recommendation"
+            },
+            "effort_size": {
+              "type": "string",
+              "description": "Size of effort required"
+            },
+            "scope": {
+              "type": "string",
+              "description": "Scope of the recommendation (Onsite/Offsite)"
+            },
+            "query_group_name": {
+              "type": "string",
+              "description": "Name of the query group"
+            },
+            "query_group_id": {
+              "type": "number",
+              "description": "ID of the query group"
+            },
+            "user_task_status": {
+              "type": "string",
+              "description": "Status of the user task"
+            }
+          },
+          "required": [
+            "id",
+            "title",
+            "task",
+            "data_points",
+            "recommnedation",
+            "why_important",
+            "platform",
+            "status",
+            "date",
+            "cw",
+            "attached_links",
+            "effort_size",
+            "scope",
+            "query_group_name",
+            "query_group_id",
+            "user_task_status"
+          ]
+        },
+        "RecommendationsResponse": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Recommendation"
+              },
+              "description": "List of recommendations"
             },
             "version": {
               "type": "string",
