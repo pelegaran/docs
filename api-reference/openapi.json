@@ -294,6 +294,43 @@
           }
         }
       }
+    },
+    "/get-customer-growth-stats": {
+      "post": {
+        "description": "Get growth statistics for a customer including per scan and overview data",
+        "requestBody": {
+          "description": "Customer ID",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customerID": {
+                    "type": "number",
+                    "description": "The ID of the customer"
+                  }
+                },
+                "required": [
+                  "customerID"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Growth statistics for the customer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GrowthStatsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "webhooks": {
@@ -895,6 +932,144 @@
                 "$ref": "#/components/schemas/Recommendation"
               },
               "description": "List of recommendations"
+            },
+            "version": {
+              "type": "string",
+              "description": "API version"
+            },
+            "env": {
+              "type": "string",
+              "description": "Environment name"
+            }
+          },
+          "required": [
+            "data",
+            "version",
+            "env"
+          ]
+        },
+        "PerScanDataPoint": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string",
+              "format": "date",
+              "description": "Execution date"
+            },
+            "score": {
+              "type": "number",
+              "description": "Score for this scan"
+            },
+            "executionId": {
+              "type": "number",
+              "description": "ID of the execution"
+            }
+          },
+          "required": [
+            "date",
+            "score",
+            "executionId"
+          ]
+        },
+        "PerScanGroup": {
+          "type": "object",
+          "properties": {
+            "queryGroupId": {
+              "type": "number",
+              "description": "Query group ID"
+            },
+            "queryGroupTitle": {
+              "type": "string",
+              "description": "Query group title"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PerScanDataPoint"
+              },
+              "description": "Per scan data points"
+            }
+          },
+          "required": [
+            "queryGroupId",
+            "queryGroupTitle",
+            "data"
+          ]
+        },
+        "OverviewDataPoint": {
+          "type": "object",
+          "properties": {
+            "startDate": {
+              "type": "string",
+              "format": "date",
+              "description": "Start date of the 30-day window"
+            },
+            "endDate": {
+              "type": "string",
+              "format": "date",
+              "description": "End date of the 30-day window"
+            },
+            "score": {
+              "type": "number",
+              "description": "Rolling average score for the 30-day period"
+            }
+          },
+          "required": [
+            "startDate",
+            "endDate",
+            "score"
+          ]
+        },
+        "OverviewGroup": {
+          "type": "object",
+          "properties": {
+            "queryGroupId": {
+              "type": "number",
+              "description": "Query group ID"
+            },
+            "queryGroupTitle": {
+              "type": "string",
+              "description": "Query group title"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/OverviewDataPoint"
+              },
+              "description": "Overview data points with 30-day rolling averages"
+            }
+          },
+          "required": [
+            "queryGroupId",
+            "queryGroupTitle",
+            "data"
+          ]
+        },
+        "GrowthStatsResponse": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "perScan": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PerScanGroup"
+                  },
+                  "description": "Per scan data for each query group"
+                },
+                "overview": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OverviewGroup"
+                  },
+                  "description": "Overview data with 30-day rolling averages for each query group"
+                }
+              },
+              "required": [
+                "perScan",
+                "overview"
+              ]
             },
             "version": {
               "type": "string",
