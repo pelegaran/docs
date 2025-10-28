@@ -33,6 +33,12 @@
               "api-reference/endpoint/get-recommendations",
               "api-reference/endpoint/get-customer-growth-stats"
             ]
+          },
+          {
+            "group": "Use Cases",
+            "pages": [
+              "use-cases/agency-dashboard"
+            ]
           }
         ]
       }
