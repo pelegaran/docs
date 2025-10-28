@@ -1,57 +1,11 @@
 ---
-title: "Agency Dashboard Implementation"
+title: "Agency Dashboard"
 description: "Build an agency dashboard with customer overview using the Mindshare API"
 ---
 
 # Building an Agency Dashboard
 
 This guide demonstrates how to use the Mindshare API to build a dashboard that allows agencies to manage multiple customers and view detailed insights for each one.
-
-## Dashboard Architecture
-
-```mermaid
-graph TB
-    subgraph "Agency Dashboard"
-        A[Customers List Screen] 
-        A -->|Click Customer| B[Customer Overview Screen]
-    end
-    
-    subgraph "Customer Overview Sections"
-        B --> C[AI Visibility Score]
-        B --> D[Competitors Analysis]
-        B --> E[Queries Table]
-        B --> F[Sources Analysis]
-        B --> G[Growth Graph]
-        B --> H[Recommendations]
-    end
-    
-    subgraph "API Endpoints"
-        I["GET /get-organization-customers"]
-        J["GET /get-customer-growth-stats"]
-        K["GET /get-customer-query-groups"]
-        L["GET /get-queries"]
-        M["GET /get-companies-stats"]
-        N["GET /get-domain-stats"]
-        O["GET /get-recommendations"]
-    end
-    
-    A -.->|populates| I
-    C -.->|uses| J
-    C -.->|uses| K
-    E -.->|uses| L
-    D -.->|uses| M
-    F -.->|uses| N
-    H -.->|uses| O
-    
-    style A fill:#8B5CF6
-    style B fill:#A78BFA
-    style C fill:#C4B5FD
-    style D fill:#C4B5FD
-    style E fill:#C4B5FD
-    style F fill:#C4B5FD
-    style G fill:#C4B5FD
-    style H fill:#C4B5FD
-```
 
 ## Dashboard Structure
 
@@ -84,33 +38,6 @@ Use this endpoint to populate your customers list.
 - Next scheduled scan
 - Payment status (paying vs trial)
 - Quick action: "View Dashboard" button
-
-```bash
-curl -X POST "https://api.mindshare.so/customer/v1/get-organization-customers" \
-  -H "X-API-Key: your-api-key" \
-  -H "Content-Type: application/json" \
-  -d '{"organizationID": 123}'
-```
-
-**Response Structure:**
-```json
-{
-  "data": [
-    {
-      "id": 4896,
-      "name": "Quack",
-      "created_time": "2025-09-27T12:15:00.000Z",
-      "last_scan_date": "2025-09-28T00:00:00.000Z",
-      "next_scheduled_run": null,
-      "paying_customer": false,
-      "website_url": "https://www.quack.ai",
-      "view_report_url": "/report/LAQX4896PBXT"
-    }
-  ],
-  "version": "18.2.1",
-  "env": "development"
-}
-```
 
 **Implementation Example:**
 
@@ -254,76 +181,6 @@ Display line graph with toggle between "Per Scan" (individual scores) and "Overv
 ### Strategic Recommendations
 Display actionable insights organized by effort size, platform, and scope using `/get-recommendations`.
 
-```javascript Recommendations Example
-const recommendations = await fetch('/get-recommendations', {
-  method: 'POST',
-  body: JSON.stringify({ customerID: 4896 })
-});
-
-const data = await recommendations.json();
-
-// Display each recommendation with:
-data.data.forEach(rec => {
-  // - Title and task description
-  // - Platform (Reddit, blog, YouTube)
-  // - Scope (Onsite/Offsite)
-  // - Effort size (Small/Medium/Large)
-  // - Why it's important
-  // - Data points supporting the recommendation
-  // - Attached links for resources
-});
-```
-
----
-
-## Complete Implementation
-
-```javascript Load Customer Overview
-async function loadCustomerOverview(customerID) {
-  // Load all data in parallel
-  const [queryGroupsRes, growthRes, companiesRes, domainsRes, recommendationsRes] = await Promise.all([
-    fetch('/get-customer-query-groups', {
-      method: 'POST',
-      body: JSON.stringify({ customerID })
-    }),
-    fetch('/get-customer-growth-stats', {
-      method: 'POST',
-      body: JSON.stringify({ customerID })
-    }),
-    fetch('/get-companies-stats', {
-      method: 'POST',
-      body: JSON.stringify({ customerID, executionID: latestExecutionID })
-    }),
-    fetch('/get-domain-stats', {
-      method: 'POST',
-      body: JSON.stringify({ customerID, executionID: latestExecutionID })
-    }),
-    fetch('/get-recommendations', {
-      method: 'POST',
-      body: JSON.stringify({ customerID })
-    })
-  ]);
-  
-  const queryGroups = await queryGroupsRes.json();
-  const latestExecution = queryGroups.data[0].executions[0].id;
-  
-  // Get queries for latest execution
-  const queries = await fetch('/get-queries', {
-    method: 'POST',
-    body: JSON.stringify({ customerID, executionID: latestExecution })
-  });
-  
-  return {
-    queryGroups,
-    growth: await growthRes.json(),
-    competitors: await companiesRes.json(),
-    sources: await domainsRes.json(),
-    queries: await queries.json(),
-    recommendations: await recommendationsRes.json()
-  };
-}
-```
-
 ---
 
 ## Summary
@@ -339,7 +196,56 @@ This use case demonstrates how to build an agency dashboard in two screens:
    - `/get-domain-stats` (for sources)
    - `/get-recommendations` (for strategic insights)
 
-The architecture diagram at the top visualizes how each dashboard section maps to its corresponding API endpoint. All endpoints can be called in parallel for optimal performance.
+All endpoints can be called in parallel for optimal performance.
 
 For detailed endpoint documentation, see the [Endpoints section](/api-reference/endpoint/get-organization-customers).
+
+---
+
+## Dashboard Architecture
+
+```mermaid
+graph TB
+    subgraph "Agency Dashboard"
+        A[Customers List Screen] 
+        A -->|Click Customer| B[Customer Overview Screen]
+    end
+    
+    subgraph "Customer Overview Sections"
+        B --> C[AI Visibility Score]
+        B --> D[Competitors Analysis]
+        B --> E[Queries Table]
+        B --> F[Sources Analysis]
+        B --> G[Growth Graph]
+        B --> H[Recommendations]
+    end
+    
+    subgraph "API Endpoints"
+        I["POST /get-organization-customers"]
+        J["POST /get-customer-growth-stats"]
+        K["POST /get-customer-query-groups"]
+        L["POST /get-queries"]
+        M["POST /get-companies-stats"]
+        N["POST /get-domain-stats"]
+        O["POST /get-recommendations"]
+    end
+    
+    A -.->|populates| I
+    C -.->|uses| J
+    C -.->|uses| K
+    E -.->|uses| L
+    D -.->|uses| M
+    F -.->|uses| N
+    H -.->|uses| O
+    G -.->|uses| J
+    
+    style A fill:#8B5CF6
+    style B fill:#A78BFA
+    style C fill:#C4B5FD
+    style D fill:#C4B5FD
+    style E fill:#C4B5FD
+    style F fill:#C4B5FD
+    style G fill:#C4B5FD
+    style H fill:#C4B5FD
+```
 
