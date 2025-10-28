@@ -1,8 +1,8 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
+    "title": "Mindshare API",
+    "description": "The Mindshare API provides comprehensive access to brand visibility analytics, customer intelligence, and growth tracking. Use this API to retrieve customer data, query groups, execution results, domain insights, and actionable recommendations for improving your brand's AI visibility.",
     "license": {
       "name": "MIT"
     },
@@ -21,7 +21,7 @@
   "paths": {
     "/get-organization-customers": {
       "post": {
-        "description": "Get all customers linked to the organization",
+        "description": "Retrieve a list of all customers associated with the organization.\n\nThis endpoint provides detailed information including customer account status, trial periods, payment status, and scan schedules.",
         "requestBody": {
           "description": "Organization ID",
           "content": {
@@ -58,7 +58,7 @@
     },
     "/get-customer-query-groups": {
       "post": {
-        "description": "Get all query groups for a customer",
+        "description": "Retrieve query groups associated with a customer.\nA query group represents a set of related queries for a specific product line or campaign. Customers can have multiple query groups.\n\nThis endpoint returns keywords, scan location, and a complete history of all scans with their scores and dates.",
         "requestBody": {
           "description": "Customer ID",
           "content": {
@@ -95,7 +95,7 @@
     },
     "/get-queries": {
       "post": {
-        "description": "Get queries based on customer ID and either queryGroupID with date range, or executionID",
+        "description": "This endpoint returns a comprehensive list of queries with complete answer analysis, including whether your customer appears in the answers, the full answer text, competitors mentioned in responses, and all sources cited in the answers.\n\nUse either queryGroupID with a date range for historical data, or executionID to get results from a specific scan.",
         "requestBody": {
           "description": "Get queries parameters",
           "content": {
@@ -150,7 +150,7 @@
     },
     "/get-companies-stats": {
       "post": {
-        "description": "Get company statistics based on customer ID and either queryGroupID with date range, or executionID",
+        "description": "This endpoint returns aggregated data showing which companies appear in query results. For each company, you'll receive:\n\nCount: How many queries this company was mentioned in\nPercentage: What percent of total queries this company was mentioned in\n\nUse either queryGroupID with a date range for historical analysis, or executionID to get statistics from a specific scan.",
         "requestBody": {
           "description": "Get companies stats parameters",
           "content": {
@@ -205,7 +205,7 @@
     },
     "/get-domain-stats": {
       "post": {
-        "description": "Get domain and article statistics based on customer ID and either queryGroupID with date range, or executionID",
+        "description": "This endpoint returns two datasets:\n\n**Domain Stats**: Shows which domains appear in query results\nCount: How many queries this domain was mentioned in\nPercentage: What percent of total queries this domain appeared in\nCategory: Domain category classification\n\n**Article Stats**: Shows which specific articles appear in query results\nCount: How many queries this article was appear in. \nPercentage: What percent of total queries this article appeared in\nisCustomerMentioned: Indicator whether your customer is mentioned inside the article.",
         "requestBody": {
           "description": "Get domain stats parameters",
           "content": {
@@ -260,7 +260,7 @@
     },
     "/get-recommendations": {
       "post": {
-        "description": "Get recommendations for a customer",
+        "description": "Retrieve weekly strategic recommendations for improving brand visibility.\n\nOur system provides data-driven recommendations that help you increase your presence in AI-generated responses. Each recommendation includes:\n\nWhy it's relevant, platform where the recommendation should be executed (Reddit, blog, YouTube, etc.), effort size - the amount of work required (Small, Medium, Large).",
         "requestBody": {
           "description": "Customer ID",
           "content": {
@@ -297,7 +297,7 @@
     },
     "/get-customer-growth-stats": {
       "post": {
-        "description": "Get growth statistics for a customer including per scan and overview data",
+        "description": "This endpoint provides data organized by query group, with two distinct views:\n\n**Per Scan**: Shows individual scores for each scan with its date. Provides granular, point-in-time data for each scan. Includes execution date and score for each scan\n\n**Overview**: Shows 30-day rolling average scores. Provides smoothed trend data that reduces noise. Calculated as rolling averages based on the last 30 days of executions.",
         "requestBody": {
           "description": "Customer ID",
           "content": {
@@ -749,11 +749,6 @@
               "type": "string",
               "nullable": true,
               "description": "Category of the domain"
-            },
-            "isCompetitor": {
-              "type": "boolean",
-              "nullable": true,
-              "description": "Whether this is a competitor"
             }
           },
           "required": [
