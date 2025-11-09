@@ -52,13 +52,13 @@
   "logo": {
     "light": "/logo/light1.svg",
     "dark": "/logo/dark1.svg",
-    "href": "https://mindshare.so/"
+    "href": "https://www.mindshare.so/"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:ethan@amionai.com"
+        "href": "mailto:ethan@mindshare.so"
       }
     ],
     "primary": {
