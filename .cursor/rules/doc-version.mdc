@@ -1,0 +1,14 @@
+---
+description: When updating documentation, bump the visible doc version so readers can confirm they have the latest.
+globs: 
+  - "**/*.mdx"
+  - "snippets/doc-version.mdx"
+---
+
+# Documentation version
+
+Whenever you add or change content in this documentation (any .mdx or related doc files), you must increment the **documentation version** so readers can verify they are viewing the latest version.
+
+- The version is defined in a single place: **`snippets/doc-version.mdx`**
+- It is displayed on the Welcome page (`index.mdx`) and on the API Introduction page (`api-reference/introduction.mdx`).
+- To bump the version: edit `snippets/doc-version.mdx` and update the version number (e.g. from `1.0` to `1.1` for small updates, or `2.0` for a major doc release). No other files need to be changed.
