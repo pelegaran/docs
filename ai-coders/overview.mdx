@@ -8,6 +8,10 @@ import DocVersion from '/snippets/doc-version.mdx';
 
 <DocVersion />
 
+<Warning>
+**Important:** You must always add the parameter `amiai = true` to your API requests.
+</Warning>
+
 ## For AI coders
 
 This section is optimized for use with AI coding assistants (Cursor, Claude Code, Windsurf, etc.). Same API, same endpoints—quick reference and patterns that work well when you're building with an AI pair.
@@ -17,6 +21,7 @@ This section is optimized for use with AI coding assistants (Cursor, Claude Code
 - **Base URL:** `https://api.mindshare.so`
 - **Auth:** API key in header `Authorization: Bearer <your-api-key>`
 - **Content type:** `application/json`
+- **Required:** Always include `amiai: true` in request parameters
 
 For full details, use the **Mindshare API** tab: [Authentication](/api-reference/authentication), [Rate Limits](/api-reference/rate-limits), and [Endpoints](/api-reference/endpoint/get-organization-customers).
 
