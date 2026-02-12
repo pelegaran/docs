@@ -10,9 +10,9 @@
   "favicon": "/favicon.svg",
   "integrations": {
     "gtm": {
-        "tagId": "GTM-WB238KWS"
+      "tagId": "GTM-WB238KWS"
     }
-},
+  },
   "navigation": {
     "tabs": [
       {
@@ -43,6 +43,17 @@
             "group": "Use Cases",
             "pages": [
               "use-cases/agency-dashboard"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "For AI coders",
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": [
+              "ai-coders/overview"
             ]
           }
         ]
