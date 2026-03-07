@@ -331,6 +331,48 @@
           }
         }
       }
+    },
+    "/generate-keywords": {
+      "post": {
+        "description": "Generates a list of 10 high-intent SEO keywords for a given website URL in the specified language.\n\nKeywords describe the product or services the website offers without including the business name. For local or niche businesses, keywords include the location or niche within each keyword.\n\nUses AI (GPT) to analyze the website and produce the list.",
+        "requestBody": {
+          "description": "Website URL and language for keyword generation",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "language": {
+                    "type": "string",
+                    "description": "The language in which keywords should be generated (case-insensitive). Supported languages: English, Portuguese, Spanish, German, French, Italian, Dutch, Swedish, Polish, Norwegian, Danish, Finnish, Greek, Hungarian, Czech, Romanian, Ukrainian, Slovak, Bulgarian, Croatian, Serbian, Slovenian, Lithuanian, Latvian, Estonian, Icelandic, Belarusian, Bosnian, Albanian, Macedonian, Georgian, Armenian, Azerbaijani, Hindi, Japanese, Korean, Indonesian, Urdu, Bengali, Filipino, Vietnamese, Thai, Burmese, Chinese, Malay, Uzbek, Kazakh, Turkmen, Tajik, Kyrgyz, Sinhala, Khmer, Lao, Hebrew, Arabic, Turkish, Swahili"
+                  },
+                  "websiteUrl": {
+                    "type": "string",
+                    "description": "The website URL to generate keywords for."
+                  }
+                },
+                "required": [
+                  "language",
+                  "websiteUrl"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Keywords generated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateKeywordsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "webhooks": {
@@ -1059,6 +1101,28 @@
                 "perScan",
                 "overview"
               ]
+            },
+            "version": {
+              "type": "string",
+              "description": "API version"
+            },
+            "env": {
+              "type": "string",
+              "description": "Environment name"
+            }
+          },
+          "required": [
+            "data",
+            "version",
+            "env"
+          ]
+        },
+        "GenerateKeywordsResponse": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "string",
+              "description": "Comma-separated list of 10 SEO keywords"
             },
             "version": {
               "type": "string",
