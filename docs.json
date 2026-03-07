@@ -43,6 +43,12 @@
                 ]
               },
               {
+                "group": "Management",
+                "pages": [
+                  "api-reference/endpoint/create-query-group"
+                ]
+              },
+              {
                 "group": "Utilities",
                 "pages": [
                   "api-reference/endpoint/generate-keywords"
