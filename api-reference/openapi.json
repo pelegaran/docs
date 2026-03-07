@@ -435,6 +435,69 @@
           }
         }
       }
+    },
+    "/create-query-group-from-existing": {
+      "post": {
+        "description": "Creates a new Query Group by cloning an existing one.\n\nA Query Group represents a set of related queries for a specific product line or campaign. Customers can have multiple Query Groups. This endpoint allows duplicating a Query Group's configuration (website URL, keywords, language, country) under a new name, with the option to override any of those fields.\n\nIf the keywords remain the same as the parent, the system clones the existing queries for faster setup. If keywords are changed, the system generates new queries from scratch.\n\nThe parent Query Group must belong to the same customer.\n\n**Note:** Creating a Query Group consumes one credit from the organization's quota.",
+        "requestBody": {
+          "description": "Clone Query Group details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customerID": {
+                    "type": "number",
+                    "description": "The ID of the customer to create the Query Group for. Must be a valid, existing customer that belongs to the caller's organization."
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Display name for the new Query Group. Must be a non-empty string."
+                  },
+                  "parentQueryGroupId": {
+                    "type": "number",
+                    "description": "The ID of the existing Query Group to clone from. Must belong to the same customer, exist, and not be deleted."
+                  },
+                  "websiteUrl": {
+                    "type": "string",
+                    "description": "Override the website URL. If not provided, inherited from the parent Query Group."
+                  },
+                  "keywords": {
+                    "type": "string",
+                    "description": "Override the keywords. Comma-separated list of SEO high-intent keywords (e.g., \"residential proxies, rotating proxies\"). If keywords differ from the parent's, the system generates new queries from scratch rather than cloning existing ones. If not provided, inherited from the parent Query Group."
+                  },
+                  "language": {
+                    "type": "string",
+                    "description": "Override the language (case-insensitive). If not provided, inherited from the parent Query Group. Supported languages: English, Portuguese, Spanish, German, French, Italian, Dutch, Swedish, Polish, Norwegian, Danish, Finnish, Greek, Hungarian, Czech, Romanian, Ukrainian, Slovak, Bulgarian, Croatian, Serbian, Slovenian, Lithuanian, Latvian, Estonian, Icelandic, Belarusian, Bosnian, Albanian, Macedonian, Georgian, Armenian, Azerbaijani, Hindi, Japanese, Korean, Indonesian, Urdu, Bengali, Filipino, Vietnamese, Thai, Burmese, Chinese, Malay, Uzbek, Kazakh, Turkmen, Tajik, Kyrgyz, Sinhala, Khmer, Lao, Hebrew, Arabic, Turkish, Swahili"
+                  },
+                  "countryCode": {
+                    "type": "string",
+                    "description": "Override the two-letter country code for execution location (e.g., \"us\", \"gb\", \"il\"). If not provided, inherited from the parent Query Group. Supported codes: us, ca, br, mx, ar, co, cl, pe, ve, ec, bo, uy, pa, cr, do, jm, de, gb, fr, it, es, nl, ch, se, pl, be, at, no, dk, ie, fi, pt, gr, hu, cz, ro, ua, lu, sk, bg, hr, rs, si, lt, lv, ee, is, by, md, ba, al, mk, cy, ge, am, az, im, li, in, jp, kr, id, pk, bd, ph, vn, th, mm, tw, my, hk, sg, uz, kz, tm, tj, kg, lk, kh, la, mo, bn, il, ae, sa, za, ng, eg, tr, iq, qa, kw, om, jo, ma, ke, gh, tz, cm, tn, zw, bw, mz, mw, zm, sl, cg, au, nz"
+                  }
+                },
+                "required": [
+                  "customerID",
+                  "name",
+                  "parentQueryGroupId"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Query Group created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateQueryGroupResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "webhooks": {
