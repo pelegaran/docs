@@ -260,7 +260,7 @@
     },
     "/get-recommendations": {
       "post": {
-        "description": "Retrieve weekly strategic recommendations for improving brand visibility.\n\nOur system provides data-driven recommendations that help you increase your presence in AI-generated responses. Each recommendation includes:\n\nWhy it's relevant, platform where the recommendation should be executed (Reddit, blog, YouTube, etc.), effort size - the amount of work required (Small, Medium, Large).",
+        "description": "Retrieve weekly strategic recommendations for improving brand visibility.\n\nOur system provides data-driven recommendations that help you increase your presence in AI-generated responses. Each recommendation includes:\n\nWhy it's relevant, platform where the recommendation should be executed (Reddit, blog, YouTube, etc.), references to third-party sources currently influencing AI engines, and a direct action URL when applicable.",
         "requestBody": {
           "description": "Customer ID",
           "content": {
@@ -845,10 +845,6 @@
               "type": "string",
               "description": "Data points supporting the recommendation"
             },
-            "recommnedation": {
-              "type": "string",
-              "description": "Full recommendation text"
-            },
             "why_important": {
               "type": "string",
               "description": "Why this recommendation is important"
@@ -866,37 +862,22 @@
               "format": "date",
               "description": "Date of the recommendation"
             },
-            "cw": {
-              "type": "string",
-              "description": "CW identifier"
-            },
-            "attached_links": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "format": "uri"
-              },
-              "description": "Links attached to the recommendation"
-            },
-            "effort_size": {
-              "type": "string",
-              "description": "Size of effort required"
-            },
-            "scope": {
-              "type": "string",
-              "description": "Scope of the recommendation (Onsite/Offsite)"
-            },
-            "query_group_name": {
-              "type": "string",
-              "description": "Name of the query group"
-            },
             "query_group_id": {
               "type": "number",
               "description": "ID of the query group"
             },
-            "user_task_status": {
+            "take_action_url": {
               "type": "string",
-              "description": "Status of the user task"
+              "format": "uri",
+              "nullable": true,
+              "description": "A direct URL where the user should take action. Present when the recommendation involves engaging with a specific external resource (e.g. a Reddit thread to comment on). Null when the recommendation is a general action without a single target URL."
+            },
+            "references": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/RecommendationReference"
+              },
+              "description": "A list of existing third-party sources in the customer's niche that are currently influencing AI engines. Provided as context and inspiration — they show what content is already being cited by AI in the customer's space. Returns empty array when no references exist."
             }
           },
           "required": [
@@ -904,18 +885,31 @@
             "title",
             "task",
             "data_points",
-            "recommnedation",
             "why_important",
             "platform",
             "status",
             "date",
-            "cw",
-            "attached_links",
-            "effort_size",
-            "scope",
-            "query_group_name",
             "query_group_id",
-            "user_task_status"
+            "take_action_url",
+            "references"
+          ]
+        },
+        "RecommendationReference": {
+          "type": "object",
+          "properties": {
+            "source_id": {
+              "type": "number",
+              "description": "Internal identifier of the source"
+            },
+            "source_url": {
+              "type": "string",
+              "format": "uri",
+              "description": "The URL of the external source"
+            }
+          },
+          "required": [
+            "source_id",
+            "source_url"
           ]
         },
         "RecommendationsResponse": {
