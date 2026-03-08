@@ -543,7 +543,7 @@
     },
     "/update-query-group-status": {
       "post": {
-        "description": "Updates the status of an existing query group.\n\nA query group represents a set of related queries for a specific product line or campaign. Customers can have multiple query groups. The caller must own the query group through their organization — the system validates that the query group belongs to a customer within the caller's organization.",
+        "description": "Updates the status of an existing query group.\n\nA query group represents a set of related queries for a specific product line or campaign. Customers can have multiple query groups. The caller must own the query group through their organization — the system validates that the query group belongs to a customer within the caller's organization.\n\n**Note:** Changing status to **Active** consumes one credit from the organization's quota. Changing status to **Pause** or **Not Active** frees one credit back to the quota.",
         "requestBody": {
           "description": "Query Group status update details",
           "content": {
