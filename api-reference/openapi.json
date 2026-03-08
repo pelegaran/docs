@@ -533,7 +533,50 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateQueryGroupNameResponse"
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/update-query-group-status": {
+      "post": {
+        "description": "Updates the status of an existing query group.\n\nA query group represents a set of related queries for a specific product line or campaign. Customers can have multiple query groups. The caller must own the query group through their organization — the system validates that the query group belongs to a customer within the caller's organization.",
+        "requestBody": {
+          "description": "Query Group status update details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queryGroupId": {
+                    "type": "number",
+                    "description": "The ID of the query group to update."
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": ["Active", "Not Active", "Pause"],
+                    "description": "The new status for the query group."
+                  }
+                },
+                "required": [
+                  "queryGroupId",
+                  "status"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Query group status updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
                 }
               }
             }
@@ -1337,7 +1380,7 @@
             "env"
           ]
         },
-        "UpdateQueryGroupNameResponse": {
+        "MessageResponse": {
           "type": "object",
           "properties": {
             "data": {

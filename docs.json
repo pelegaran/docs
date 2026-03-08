@@ -47,7 +47,8 @@
                 "pages": [
                   "api-reference/endpoint/create-query-group",
                   "api-reference/endpoint/create-query-group-from-existing",
-                  "api-reference/endpoint/update-query-group-name"
+                  "api-reference/endpoint/update-query-group-name",
+                  "api-reference/endpoint/update-query-group-status"
                 ]
               },
               {
