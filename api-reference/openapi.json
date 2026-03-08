@@ -498,6 +498,48 @@
           }
         }
       }
+    },
+    "/update-query-group-name": {
+      "post": {
+        "description": "Updates the name of an existing query group.\n\nA query group represents a set of related queries for a specific product line or campaign. Customers can have multiple query groups. The caller must own the query group through their organization.",
+        "requestBody": {
+          "description": "Query Group rename details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queryGroupId": {
+                    "type": "number",
+                    "description": "The ID of the query group to rename."
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "The new name for the query group. Must be a non-empty string."
+                  }
+                },
+                "required": [
+                  "queryGroupId",
+                  "name"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Query group name updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateQueryGroupNameResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "webhooks": {
@@ -1279,6 +1321,37 @@
                 "query_group_id"
               ],
               "description": "Created Query Group details"
+            },
+            "version": {
+              "type": "string",
+              "description": "API version"
+            },
+            "env": {
+              "type": "string",
+              "description": "Environment name"
+            }
+          },
+          "required": [
+            "data",
+            "version",
+            "env"
+          ]
+        },
+        "UpdateQueryGroupNameResponse": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "Success message"
+                }
+              },
+              "required": [
+                "message"
+              ],
+              "description": "Response details"
             },
             "version": {
               "type": "string",
