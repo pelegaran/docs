@@ -703,9 +703,9 @@
               "type": "string",
               "description": "Type of the group"
             },
-            "query_group_title": {
+            "query_group_name": {
               "type": "string",
-              "description": "Title of the query group"
+              "description": "Name of the query group"
             },
             "created_time": {
               "type": "string",
