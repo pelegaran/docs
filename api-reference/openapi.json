@@ -583,6 +583,48 @@
           }
         }
       }
+    },
+    "/get-queries-definitions": {
+      "post": {
+        "description": "Returns the list of query definitions (prompts) for a given query group.\n\nA query group represents a set of related queries for a specific product line or campaign. This endpoint returns the queries themselves — not execution results. To get execution results with resources, competitors, and scores, use `POST /get-queries` instead.\n\nThe caller must own the query group through their organization.",
+        "requestBody": {
+          "description": "Query Group ID and optional filters",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queryGroupId": {
+                    "type": "number",
+                    "description": "The ID of the query group to retrieve queries for."
+                  },
+                  "includeDeleted": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If true, includes soft-deleted queries in the response. Defaults to false."
+                  }
+                },
+                "required": [
+                  "queryGroupId"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "List of query definitions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueriesDefinitionsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "webhooks": {
@@ -1395,6 +1437,64 @@
                 "message"
               ],
               "description": "Response details"
+            },
+            "version": {
+              "type": "string",
+              "description": "API version"
+            },
+            "env": {
+              "type": "string",
+              "description": "Environment name"
+            }
+          },
+          "required": [
+            "data",
+            "version",
+            "env"
+          ]
+        },
+        "QueryDefinition": {
+          "type": "object",
+          "properties": {
+            "query_id": {
+              "type": "number",
+              "description": "The unique ID of the query"
+            },
+            "query": {
+              "type": "string",
+              "description": "The query text/prompt"
+            },
+            "query_group_id": {
+              "type": "number",
+              "description": "The ID of the query group this query belongs to"
+            },
+            "date": {
+              "type": "string",
+              "format": "date-time",
+              "description": "The last update date of the query"
+            },
+            "is_deleted": {
+              "type": "number",
+              "description": "Whether the query has been soft-deleted (0 or 1). Only relevant when includeDeleted is true."
+            }
+          },
+          "required": [
+            "query_id",
+            "query",
+            "query_group_id",
+            "date",
+            "is_deleted"
+          ]
+        },
+        "QueriesDefinitionsResponse": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/QueryDefinition"
+              },
+              "description": "List of query definitions"
             },
             "version": {
               "type": "string",
