@@ -2,3 +2,15 @@
 title: 'Get Query Groups'
 openapi: 'POST /get-customer-query-groups'
 ---
+
+<Accordion title="Query Group Statuses">
+  **Active** — live, scanned on schedule, data available via API.
+
+  **Pause** — scanning paused, still accessible via API, can be resumed.
+
+  **Not Active** — fully disabled, no scanning, not available via API.
+</Accordion>
+
+<Accordion title="What is an Execution?">
+  An execution is a single scan/run of all queries in a query group against an AI platform like ChatGPT, producing visibility scores, competitor mentions, and source citations for each query. Executions run periodically and their results over time power the growth tracking and trend analysis.
+</Accordion>

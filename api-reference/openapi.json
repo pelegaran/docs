@@ -58,7 +58,7 @@
     },
     "/get-customer-query-groups": {
       "post": {
-        "description": "Retrieve query groups associated with a customer.\nA query group represents a set of related queries for a specific product line or campaign. Customers can have multiple query groups.\n\nThis endpoint returns keywords, scan location, and a complete history of all scans with their scores and dates.\n\nQuery Groups have three statuses: **Active** means the query group is live — it will be scanned on schedule and its data is available via the API. **Pause** temporarily stops scanning but the query group remains accessible via the API and can be resumed back to Active. **Not Active** means the query group is fully disabled — it won't be scanned and is no longer available via the API.\n\nEach query group contains a list of **executions**. An execution is a single scan/run of all queries in a query group against an AI platform like ChatGPT, producing visibility scores, competitor mentions, and source citations for each query. Executions run periodically and their results over time power the growth tracking and trend analysis.",
+        "description": "Retrieve query groups associated with a customer.\nA query group represents a set of related queries for a specific product line or campaign. Customers can have multiple query groups.\n\nThis endpoint returns keywords, scan location, and a complete history of all scans with their scores and dates.",
         "requestBody": {
           "description": "Customer ID",
           "content": {
