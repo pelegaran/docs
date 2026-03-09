@@ -625,6 +625,63 @@
           }
         }
       }
+    },
+    "/edit-queries-definitions": {
+      "post": {
+        "description": "Adds and/or removes query definitions (prompts) from a query group.\n\nA query group represents a set of related queries for a specific product line or campaign. Customers can have multiple query groups. You can add new queries, remove existing ones, or both in a single call. At least one of `addedQueries` or `deletedQueriesIds` must contain values. The caller must own the query group through their organization.\n\n**Note:** Each query group is limited to a maximum of 150 active (non-deleted) queries.",
+        "requestBody": {
+          "description": "Query definitions to add and/or remove",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queryGroupId": {
+                    "type": "number",
+                    "description": "The ID of the query group to edit."
+                  },
+                  "addedQueries": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "List of new query texts to add. Can be an empty array if only deleting."
+                  },
+                  "deletedQueriesIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "description": "List of query IDs to remove (soft-delete). Can be an empty array if only adding."
+                  },
+                  "comments": {
+                    "type": "string",
+                    "description": "A comment describing the reason for the edit. Stored as part of the version history."
+                  }
+                },
+                "required": [
+                  "queryGroupId",
+                  "addedQueries",
+                  "deletedQueriesIds"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Query definitions updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "webhooks": {
