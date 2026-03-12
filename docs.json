@@ -41,7 +41,8 @@
                   "api-reference/endpoint/get-companies-stats",
                   "api-reference/endpoint/get-domain-stats",
                   "api-reference/endpoint/get-recommendations",
-                  "api-reference/endpoint/get-customer-growth-stats"
+                  "api-reference/endpoint/get-customer-growth-stats",
+                  "api-reference/endpoint/get-execution-status"
                 ]
               },
               {

@@ -626,6 +626,43 @@
         }
       }
     },
+    "/get-execution-status": {
+      "post": {
+        "description": "Returns the status and progress of a scan execution. Use this to poll whether an execution has completed, track how many queries have been processed, and get an estimated time of completion for in-progress scans.",
+        "requestBody": {
+          "description": "Execution ID",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "executionID": {
+                    "type": "number",
+                    "description": "The ID of the execution to check status for."
+                  }
+                },
+                "required": [
+                  "executionID"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Execution status and progress",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExecutionStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/get-organization-quota-status": {
       "post": {
         "description": "Returns the organization's query group quota, how many are currently in use, and a per-customer breakdown of active query groups.",
@@ -1578,6 +1615,69 @@
             "query_group_id",
             "date",
             "is_deleted"
+          ]
+        },
+        "ExecutionProgress": {
+          "type": "object",
+          "properties": {
+            "total": {
+              "type": "number",
+              "description": "Total number of queries in the execution"
+            },
+            "completed": {
+              "type": "number",
+              "description": "Number of queries that have finished processing"
+            }
+          },
+          "required": [
+            "total",
+            "completed"
+          ]
+        },
+        "ExecutionStatusResponse": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "number",
+              "description": "HTTP status code"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "execution_status": {
+                  "type": "string",
+                  "enum": ["Done", "In Progress"],
+                  "description": "Either \"Done\" or \"In Progress\""
+                },
+                "progress": {
+                  "$ref": "#/components/schemas/ExecutionProgress"
+                },
+                "eta_hours": {
+                  "type": "number",
+                  "nullable": true,
+                  "description": "Estimated hours until completion. Null when status is \"Done\" or when ETA cannot be determined."
+                }
+              },
+              "required": [
+                "execution_status",
+                "progress",
+                "eta_hours"
+              ]
+            },
+            "version": {
+              "type": "string",
+              "description": "API version"
+            },
+            "env": {
+              "type": "string",
+              "description": "Environment name"
+            }
+          },
+          "required": [
+            "status",
+            "data",
+            "version",
+            "env"
           ]
         },
         "QuotaCustomer": {
