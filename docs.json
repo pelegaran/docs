@@ -34,6 +34,7 @@
                 "group": "Data Retrieval",
                 "pages": [
                   "api-reference/endpoint/get-organization-customers",
+                  "api-reference/endpoint/get-organization-quota-status",
                   "api-reference/endpoint/get-customer-query-groups",
                   "api-reference/endpoint/get-queries",
                   "api-reference/endpoint/get-queries-definitions",

@@ -626,6 +626,43 @@
         }
       }
     },
+    "/get-organization-quota-status": {
+      "post": {
+        "description": "Returns the organization's query group quota, how many are currently in use, and a per-customer breakdown of active query groups.",
+        "requestBody": {
+          "description": "Organization ID",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "organizationID": {
+                    "type": "number",
+                    "description": "The ID of the organization to check quota for. Must match the organization associated with the API key."
+                  }
+                },
+                "required": [
+                  "organizationID"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Organization quota status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganizationQuotaStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/edit-queries-definitions": {
       "post": {
         "description": "Adds and/or removes query definitions (prompts) from a query group.\n\nA query group represents a set of related queries for a specific product line or campaign. Customers can have multiple query groups. You can add new queries, remove existing ones, or both in a single call. At least one of `addedQueries` or `deletedQueriesIds` must contain values. The caller must own the query group through their organization.\n\n**Note:** Each query group is limited to a maximum of 150 active (non-deleted) queries.",
@@ -1541,6 +1578,76 @@
             "query_group_id",
             "date",
             "is_deleted"
+          ]
+        },
+        "QuotaCustomer": {
+          "type": "object",
+          "properties": {
+            "customer_id": {
+              "type": "number",
+              "description": "Customer ID"
+            },
+            "customer_name": {
+              "type": "string",
+              "description": "Customer name"
+            },
+            "active_query_groups": {
+              "type": "number",
+              "description": "Number of query groups with status \"Active\" for this customer"
+            }
+          },
+          "required": [
+            "customer_id",
+            "customer_name",
+            "active_query_groups"
+          ]
+        },
+        "OrganizationQuotaStatusResponse": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "number",
+              "description": "HTTP status code"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "quota": {
+                  "type": "number",
+                  "description": "Maximum number of active query groups allowed for the organization"
+                },
+                "used": {
+                  "type": "number",
+                  "description": "Total number of currently active query groups across all customers"
+                },
+                "customers": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/QuotaCustomer"
+                  },
+                  "description": "Per-customer breakdown of active query groups. Empty array if no customers exist."
+                }
+              },
+              "required": [
+                "quota",
+                "used",
+                "customers"
+              ]
+            },
+            "version": {
+              "type": "string",
+              "description": "API version"
+            },
+            "env": {
+              "type": "string",
+              "description": "Environment name"
+            }
+          },
+          "required": [
+            "status",
+            "data",
+            "version",
+            "env"
           ]
         },
         "QueriesDefinitionsResponse": {
