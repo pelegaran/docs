@@ -2,3 +2,18 @@
 title: 'Get Domain Stats'
 openapi: 'POST /get-domain-stats'
 ---
+
+<Accordion title="AI Platforms (`aiPlatform`)">
+  Both datasets (Domain Stats and Article Stats) are aggregated across all supported AI platforms by default — each domain/article appears once with combined `count` and `percentage` across platforms. Response rows do not include an `ai_platform` field.
+
+  Use the optional `aiPlatform` request parameter to scope both datasets to a single platform. Current values:
+
+  - `chatgpt` — ChatGPT
+  - `aioverview` — Google AI Overview
+
+  Additional platforms may be added in the future.
+
+  When `aiPlatform` is set, `count` and `percentage` in both datasets are recomputed relative to that platform only (i.e. `percentage` is over the filtered platform's queries, not the total across all platforms).
+
+  When `executionID` is provided, `aiPlatform` is not needed because an execution already belongs to a single platform.
+</Accordion>

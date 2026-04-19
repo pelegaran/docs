@@ -95,7 +95,7 @@
     },
     "/get-queries": {
       "post": {
-        "description": "This endpoint returns a comprehensive list of queries with complete answer analysis, including whether your customer appears in the answers, the full answer text, competitors mentioned in responses, and all sources cited in the answers.\n\nUse either queryGroupID with a date range for historical data, or executionID to get results from a specific scan.",
+        "description": "This endpoint returns a comprehensive list of queries with complete answer analysis, including whether your customer appears in the answers, the full answer text, competitors mentioned in responses, and all sources cited in the answers.\n\nUse either queryGroupID with a date range for historical data, or executionID to get results from a specific scan.\n\nResults include executions from all supported AI platforms (e.g. ChatGPT, Google AI Overview) by default.",
         "requestBody": {
           "description": "Get queries parameters",
           "content": {
@@ -124,6 +124,10 @@
                   "executionID": {
                     "type": "number",
                     "description": "The ID of the execution"
+                  },
+                  "aiPlatform": {
+                    "type": "string",
+                    "description": "Optional. Filter results to a single AI platform. Current values: 'chatgpt' (ChatGPT), 'aioverview' (Google AI Overview). Additional platforms may be added in the future. If omitted, results from all platforms are returned. Not needed when 'executionID' is provided, since an execution already belongs to a single platform."
                   }
                 },
                 "required": [
@@ -150,7 +154,7 @@
     },
     "/get-companies-stats": {
       "post": {
-        "description": "This endpoint returns aggregated data showing which companies appear in query results. For each company, you'll receive:\n\nCount: How many queries this company was mentioned in\nPercentage: What percent of total queries this company was mentioned in\n\nUse either queryGroupID with a date range for historical analysis, or executionID to get statistics from a specific scan.",
+        "description": "This endpoint returns aggregated data showing which companies appear in query results. For each company, you'll receive:\n\nCount: How many queries this company was mentioned in\nPercentage: What percent of total queries this company was mentioned in\n\nUse either queryGroupID with a date range for historical analysis, or executionID to get statistics from a specific scan.\n\nResults include executions from all supported AI platforms (e.g. ChatGPT, Google AI Overview) by default.",
         "requestBody": {
           "description": "Get companies stats parameters",
           "content": {
@@ -179,6 +183,10 @@
                   "executionID": {
                     "type": "number",
                     "description": "The ID of the execution"
+                  },
+                  "aiPlatform": {
+                    "type": "string",
+                    "description": "Optional. Filter stats to a single AI platform. Current values: 'chatgpt' (ChatGPT), 'aioverview' (Google AI Overview). Additional platforms may be added in the future. If omitted, stats are aggregated across all platforms. Not needed when 'executionID' is provided, since an execution already belongs to a single platform."
                   }
                 },
                 "required": [
@@ -205,7 +213,7 @@
     },
     "/get-domain-stats": {
       "post": {
-        "description": "This endpoint returns two datasets:\n\n**Domain Stats**: Shows which domains appear in query results\nCount: How many queries this domain was mentioned in\nPercentage: What percent of total queries this domain appeared in\nCategory: Domain category classification\n\n**Article Stats**: Shows which specific articles appear in query results\nCount: How many queries this article was appear in. \nPercentage: What percent of total queries this article appeared in\nisCustomerMentioned: Indicator whether your customer is mentioned inside the article.",
+        "description": "This endpoint returns two datasets:\n\n**Domain Stats**: Shows which domains appear in query results\nCount: How many queries this domain was mentioned in\nPercentage: What percent of total queries this domain appeared in\nCategory: Domain category classification\n\n**Article Stats**: Shows which specific articles appear in query results\nCount: How many queries this article was appear in. \nPercentage: What percent of total queries this article appeared in\nisCustomerMentioned: Indicator whether your customer is mentioned inside the article.\n\nResults include executions from all supported AI platforms (e.g. ChatGPT, Google AI Overview) by default.",
         "requestBody": {
           "description": "Get domain stats parameters",
           "content": {
@@ -234,6 +242,10 @@
                   "executionID": {
                     "type": "number",
                     "description": "The ID of the execution"
+                  },
+                  "aiPlatform": {
+                    "type": "string",
+                    "description": "Optional. Filter stats to a single AI platform. Current values: 'chatgpt' (ChatGPT), 'aioverview' (Google AI Overview). Additional platforms may be added in the future. If omitted, stats are aggregated across all platforms. Not needed when 'executionID' is provided, since an execution already belongs to a single platform."
                   }
                 },
                 "required": [
@@ -260,7 +272,7 @@
     },
     "/get-recommendations": {
       "post": {
-        "description": "Retrieve weekly strategic recommendations for improving brand visibility.\n\nOur system provides data-driven recommendations that help you increase your presence in AI-generated responses. Each recommendation includes:\n\nWhy it's relevant, platform where the recommendation should be executed (Reddit, blog, YouTube, etc.), references to third-party sources currently influencing AI engines, and a direct action URL when applicable.",
+        "description": "Retrieve weekly strategic recommendations for improving brand visibility.\n\nOur system provides data-driven recommendations that help you increase your presence in AI-generated responses. Each recommendation includes:\n\nWhy it's relevant, platform where the recommendation should be executed (Reddit, blog, YouTube, etc.), references to third-party sources currently influencing AI engines, and a direct action URL when applicable.\n\nNote: Google AI Overview is not yet supported here — at the moment all recommendations are generated based on ChatGPT visibility data only.",
         "requestBody": {
           "description": "Customer ID",
           "content": {
@@ -297,7 +309,7 @@
     },
     "/get-customer-growth-stats": {
       "post": {
-        "description": "This endpoint provides data organized by query group, with two distinct views:\n\n**Per Scan**: Shows individual scores for each scan with its date. Provides granular, point-in-time data for each scan. Includes execution date and score for each scan\n\n**Overview**: Shows 30-day rolling average scores. Provides smoothed trend data that reduces noise. Calculated as rolling averages based on the last 30 days of executions.",
+        "description": "This endpoint provides data organized by query group, with two distinct views:\n\n**Per Scan**: Shows individual scores for each scan with its date. Provides granular, point-in-time data for each scan. Includes execution date and score for each scan\n\n**Overview**: Shows 30-day rolling average scores. Provides smoothed trend data that reduces noise. Calculated as rolling averages based on the last 30 days of executions — computed per AI platform.\n\nResults include executions from all supported AI platforms (e.g. ChatGPT, Google AI Overview) by default.",
         "requestBody": {
           "description": "Customer ID",
           "content": {
@@ -308,6 +320,10 @@
                   "customerID": {
                     "type": "number",
                     "description": "The ID of the customer"
+                  },
+                  "aiPlatform": {
+                    "type": "string",
+                    "description": "Optional. Filter stats to a single AI platform. Current values: 'chatgpt' (ChatGPT), 'aioverview' (Google AI Overview). Additional platforms may be added in the future. If omitted, stats from all platforms are returned, interleaved in each query group's data array."
                   }
                 },
                 "required": [
@@ -941,13 +957,18 @@
             "score": {
               "type": "number",
               "description": "Execution score"
+            },
+            "ai_platform": {
+              "type": "string",
+              "description": "AI platform this execution ran against. Current values: 'chatgpt' (ChatGPT), 'aioverview' (Google AI Overview). Additional platforms may be added in the future."
             }
           },
           "required": [
             "id",
             "title",
             "execution_date",
-            "score"
+            "score",
+            "ai_platform"
           ]
         },
         "QueryGroup": {
@@ -1066,6 +1087,10 @@
               "type": "number",
               "description": "Execution ID"
             },
+            "ai_platform": {
+              "type": "string",
+              "description": "AI platform this query result came from. Current values: 'chatgpt' (ChatGPT), 'aioverview' (Google AI Overview). Additional platforms may be added in the future."
+            },
             "query_results_path": {
               "type": "string",
               "format": "uri",
@@ -1080,6 +1105,7 @@
             "query",
             "query_id",
             "execution_id",
+            "ai_platform",
             "query_results_path"
           ]
         },
@@ -1370,6 +1396,10 @@
               "format": "date",
               "description": "Execution date"
             },
+            "aiPlatform": {
+              "type": "string",
+              "description": "AI platform this scan ran against. Current values: 'chatgpt' (ChatGPT), 'aioverview' (Google AI Overview). Additional platforms may be added in the future."
+            },
             "score": {
               "type": "number",
               "description": "Score for this scan"
@@ -1381,6 +1411,7 @@
           },
           "required": [
             "date",
+            "aiPlatform",
             "score",
             "executionId"
           ]
@@ -1423,6 +1454,10 @@
               "format": "date",
               "description": "End date of the 30-day window"
             },
+            "aiPlatform": {
+              "type": "string",
+              "description": "AI platform this rolling average is computed for. Current values: 'chatgpt' (ChatGPT), 'aioverview' (Google AI Overview). Additional platforms may be added in the future."
+            },
             "score": {
               "type": "number",
               "description": "Rolling average score for the 30-day period"
@@ -1431,6 +1466,7 @@
           "required": [
             "startDate",
             "endDate",
+            "aiPlatform",
             "score"
           ]
         },

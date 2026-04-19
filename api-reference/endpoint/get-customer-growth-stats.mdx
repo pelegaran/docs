@@ -3,3 +3,15 @@ title: 'Get Customer Growth Stats'
 openapi: 'POST /get-customer-growth-stats'
 ---
 
+<Accordion title="AI Platforms (`aiPlatform`)">
+  Both views (Per Scan and Overview) include data from all supported AI platforms by default, interleaved inside each query group's `data` array. Every data point is tagged with an `aiPlatform` field so you can distinguish points per platform.
+
+  Overview rolling averages are **computed per platform**, which means the same `startDate`/`endDate` window can appear multiple times for the same query group — one entry per platform.
+
+  Use the optional `aiPlatform` request parameter to scope the response to a single platform. Current values:
+
+  - `chatgpt` — ChatGPT
+  - `aioverview` — Google AI Overview
+
+  Additional platforms may be added in the future.
+</Accordion>

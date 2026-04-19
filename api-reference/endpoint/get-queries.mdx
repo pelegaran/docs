@@ -2,3 +2,16 @@
 title: 'Get Queries'
 openapi: 'POST /get-queries'
 ---
+
+<Accordion title="AI Platforms (`aiPlatform`)">
+  Results include executions from all supported AI platforms by default. Each item in the response includes an `ai_platform` field so you can distinguish rows per platform.
+
+  Use the optional `aiPlatform` request parameter to filter the response to a single platform. Current values:
+
+  - `chatgpt` — ChatGPT
+  - `aioverview` — Google AI Overview
+
+  Additional platforms may be added in the future.
+
+  When `executionID` is provided, `aiPlatform` is not needed because an execution already belongs to a single platform.
+</Accordion>
